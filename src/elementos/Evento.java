@@ -17,6 +17,8 @@ public class Evento {
     private Time horaEvento;
     private List<Asistente> asistentesDelEvento;
 
+    GestorEventos gestorEventos = new GestorEventos();
+
     public Evento(String tipoEvento, String nombreDelEvento, Date fechaEvento, String ubicacionDelEvento, String descripcionDelEvento, Time horaEvento) {
         this.tipoEvento = tipoEvento;
         this.nombreDelEvento = nombreDelEvento;
@@ -25,6 +27,7 @@ public class Evento {
         this.descripcionDelEvento = descripcionDelEvento;
         this.horaEvento = horaEvento;
         this.asistentesDelEvento = new ArrayList<Asistente>();
+        gestorEventos.agregarEvento(this); // Cuando creo un evento, automaticamente se agrega a la lista de eventos
     }
 
     public String getTipoEvento() {
