@@ -3,59 +3,61 @@ package elementos;
 import individuos.Asistente;
 
 import java.sql.Time;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 public class Evento {
 
-    private String tipoEvento;
     private String nombreDelEvento;
-    private Date fechaEvento;
-    private String ubicacionDelEvento;
-    private String descripcionDelEvento;
-    private Time horaEvento;
-    private List<Asistente> asistentesDelEvento;
+    private LocalDateTime fechaHora;
+    private String ubicacion;
+    private String descripcion;
+    private ArrayList<Asistente> asistentes;
 
-    GestorEventos gestorEventos = new GestorEventos();
-
-    public Evento(String tipoEvento, String nombreDelEvento, Date fechaEvento, String ubicacionDelEvento, String descripcionDelEvento, Time horaEvento) {
-        this.tipoEvento = tipoEvento;
+    public Evento(String nombreDelEvento, LocalDateTime fechaHora, String ubicacion, String descripcion, ArrayList<Asistente> asistentes) {
         this.nombreDelEvento = nombreDelEvento;
-        this.fechaEvento = fechaEvento;
-        this.ubicacionDelEvento = ubicacionDelEvento;
-        this.descripcionDelEvento = descripcionDelEvento;
-        this.horaEvento = horaEvento;
-        this.asistentesDelEvento = new ArrayList<Asistente>();
-        gestorEventos.agregarEvento(this); // Cuando creo un evento, automaticamente se agrega a la lista de eventos
-    }
-
-    public String getTipoEvento() {
-        return tipoEvento;
+        this.fechaHora = fechaHora;
+        this.ubicacion = ubicacion;
+        this.descripcion = descripcion;
+        this.asistentes = new ArrayList<>();
     }
 
     public String getNombreDelEvento() {
         return nombreDelEvento;
     }
 
-    public Date getFechaEvento() {
-        return fechaEvento;
+    public LocalDateTime getFechaHora() {
+        return fechaHora;
     }
 
-    public String getUbicacionDelEvento() {
-        return ubicacionDelEvento;
+    public String getUbicacion() {
+        return ubicacion;
     }
 
-    public String getDescripcionDelEvento() {
-        return descripcionDelEvento;
+    public String getDescripcion() {
+        return descripcion;
     }
 
-    public Time getHoraEvento() {
-        return horaEvento;
+    public ArrayList<Asistente> getAsistentes() {
+        return asistentes;
     }
 
-    public List<Asistente> getAsistentesDelEvento() {
-        return asistentesDelEvento;
+    public void agregarAsistente(Asistente asistente) {
+        asistentes.add(asistente);
     }
 
+    public boolean esPasado(){
+        return fechaHora.isBefore(LocalDateTime.now());
+    }
+
+    public boolean esFuturo(){
+        return fechaHora.isAfter(LocalDateTime.now());
+    }
+
+    @Override
+    public String toString() {
+        return "Nombre del evento='" + nombreDelEvento + '\'' + "Fecha y hora=" + fechaHora;
+    }
 }
