@@ -1,8 +1,10 @@
-Evento Prueba
+Evento Prueba 1
 2025-05-28 20:06
 Aula 1
 Descripcion de prueba 1
-0
+1
+Estudiante 1
+estu1@gmail.com
 Evento Prueba 2
 2025-05-26 20:34
 Aula 2
