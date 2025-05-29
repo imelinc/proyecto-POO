@@ -38,8 +38,8 @@ public class Formulario extends JDialog {
         add(new JLabel("Ubicacion: "));
         add(ubicacion);
         add(new JLabel("Descripcion: "));
-        add(new JScrollPane(descripcion)); // para que se pueda scrollear en el area
         add(descripcion);
+
         add(botonGuardar);
 
         if (evento != null) {
