@@ -2,11 +2,9 @@ package elementos;
 
 import individuos.Asistente;
 
-import java.sql.Time;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 public class Evento {
 
@@ -16,7 +14,7 @@ public class Evento {
     private String descripcion;
     private ArrayList<Asistente> asistentes;
 
-    public Evento(String nombreDelEvento, LocalDateTime fechaHora, String ubicacion, String descripcion, ArrayList<Asistente> asistentes) {
+    public Evento(String nombreDelEvento, LocalDateTime fechaHora, String ubicacion, String descripcion) {
         this.nombreDelEvento = nombreDelEvento;
         this.fechaHora = fechaHora;
         this.ubicacion = ubicacion;
@@ -58,6 +56,6 @@ public class Evento {
 
     @Override
     public String toString() {
-        return "Nombre del evento='" + nombreDelEvento + '\'' + "Fecha y hora=" + fechaHora;
+        return nombreDelEvento + " - " + fechaHora.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
     }
 }
