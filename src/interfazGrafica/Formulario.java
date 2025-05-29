@@ -13,7 +13,7 @@ public class Formulario extends JDialog {
     private JTextField fechaHora; // formato: yyyy-mm-dd hh:mm
     private JTextField ubicacion;
     private JTextArea descripcion; // area para que sea mas grande
-    private Evento evento;
+    private Evento evento1;
 
     private static final DateTimeFormatter FORMATO = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
@@ -56,7 +56,7 @@ public class Formulario extends JDialog {
                 String ubicacionEvento = ubicacion.getText();
                 String descripcionEvento = descripcion.getText();
 
-                Evento eventoNuevo = new Evento(tituloEvento, fechaHoraEvento, ubicacionEvento, descripcionEvento);
+                evento1 = new Evento(tituloEvento, fechaHoraEvento, ubicacionEvento, descripcionEvento);
                 dispose();
             } catch (Exception err) {
                 JOptionPane.showMessageDialog(this, err.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -68,7 +68,7 @@ public class Formulario extends JDialog {
     }
 
     public Evento getEvento() {
-        return evento;
+        return evento1;
     }
 
 }

@@ -8,3 +8,10 @@ Evento Prueba 2
 Aula 2
 Descripcion de prueba 2
 0
+Evento Prueba 3
+2025-05-20 14:00
+Aula 3
+Descripcion de prueba 3
+1
+Ignacio Melinc
+igna@example.com
