@@ -14,7 +14,9 @@ public class VentanaPrincipal extends JFrame {
     private DefaultListModel<Evento> listModel;
     private JList<Evento> listaEventos;
 
-    public VentanaPrincipal() {
+    public VentanaPrincipal(GestorEventos gestor) {
+
+        this.gestor = gestor;
 
         setTitle("Gestor de Eventos");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
