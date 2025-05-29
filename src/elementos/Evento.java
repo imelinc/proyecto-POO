@@ -1,6 +1,7 @@
 package elementos;
 
 import individuos.Asistente;
+import recursos.Recurso;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -13,6 +14,7 @@ public class Evento {
     private String ubicacion;
     private String descripcion;
     private ArrayList<Asistente> asistentes;
+    private ArrayList<Recurso> recursos;
 
     public Evento(String nombreDelEvento, LocalDateTime fechaHora, String ubicacion, String descripcion) {
         this.nombreDelEvento = nombreDelEvento;
@@ -42,8 +44,16 @@ public class Evento {
         return asistentes;
     }
 
+    public ArrayList<Recurso> getRecursos() {
+        return recursos;
+    }
+
     public void agregarAsistente(Asistente asistente) {
         asistentes.add(asistente);
+    }
+
+    public void agregarRecurso(Recurso recurso) {
+        recursos.add(recurso);
     }
 
     public boolean esPasado(){

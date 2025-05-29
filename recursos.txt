@@ -1,0 +1,9 @@
+Salon;Aula 1;Aula con proyector;40
+Salon;Auditorio;Sala grande para conferencias;120
+Salon;Sala de reuniones;Sala para 10 personas;10
+Equipo;Proyector;Proyector HD;-
+Equipo;Microfono;Micrófono para conferencias;-
+Equipo;Parlante;Parlante bluetooth;-
+Catering;Coffee break;Servicio de café y snacks;-
+Catering;Almuerzo;Comida principal;-
+Catering;Cena;Comida especial para cierre;-

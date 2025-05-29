@@ -60,7 +60,7 @@ public class GestorEventos {
                 }
             }
         } catch (IOException e) {
-            System.err.println("Error al guardar archivo: " + e.getMessage());
+            System.err.println("Error al guardar archivo");
         }
     }
 
@@ -85,7 +85,7 @@ public class GestorEventos {
         } catch (FileNotFoundException e) {
             System.out.println("Archivo no encontrado.");
         } catch (IOException e) {
-            System.err.println("Error al leer archivo: " + e.getMessage());
+            System.err.println("Error al leer archivo");
         }
     }
 }
