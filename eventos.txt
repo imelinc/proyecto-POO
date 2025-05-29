@@ -3,3 +3,8 @@ Evento Prueba
 Aula 1
 Descripcion de prueba
 0
+Evento Prueba 2
+2025-05-26 20:34
+Aula 2
+Descripcion de prueba 2
+0
