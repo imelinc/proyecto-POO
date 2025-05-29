@@ -13,6 +13,8 @@ public class VentanaPrincipal extends JFrame {
     private GestorEventos gestor;
     private DefaultListModel<Evento> listModel;
     private JList<Evento> listaEventos;
+    private JComboBox<String> filtroComboBox;
+    private static final String[] FILTROS = {"Todos", "Futuros", "Pasados"}; // para ver los eventos futuros o pasados
 
     public VentanaPrincipal(GestorEventos gestor) {
 
@@ -24,11 +26,18 @@ public class VentanaPrincipal extends JFrame {
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
 
-        // Panel de arriba
+        // Panel superior
+        JPanel panelSuperior = new JPanel(new BorderLayout());
+
+        filtroComboBox = new JComboBox<>(FILTROS);
+        panelSuperior.add(filtroComboBox, BorderLayout.NORTH);
+
         listModel = new DefaultListModel<>();
         listaEventos = new JList<>(listModel);
         JScrollPane jScrollPane = new JScrollPane(listaEventos);
-        add(jScrollPane, BorderLayout.CENTER); // centro/arriba
+        panelSuperior.add(jScrollPane, BorderLayout.CENTER);
+
+        add(panelSuperior, BorderLayout.CENTER);
 
         // cargo los eventos
         for (Evento e : gestor.getEventos()) {
@@ -79,6 +88,16 @@ public class VentanaPrincipal extends JFrame {
                 new DetalleEvento(this, nuevo, gestor);
             } else {
                 JOptionPane.showMessageDialog(this, "Seleccione un evento para ver los detalles");
+            }
+        });
+
+        filtroComboBox.addActionListener(e -> {
+            listModel.clear();
+            String filtro = (String) filtroComboBox.getSelectedItem();
+            for (Evento ev : gestor.getEventos()) {
+                if ("Futuros".equals(filtro) && !ev.esFuturo()) continue;
+                if ("Pasados".equals(filtro) && !ev.esPasado()) continue;
+                listModel.addElement(ev);
             }
         });
 

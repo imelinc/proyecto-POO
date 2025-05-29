@@ -10,6 +10,6 @@ public class Main {
 
         GestorEventos gestorEventos = new GestorEventos();
         gestorEventos.cargarDesdeArchivo("eventos.txt");
-        SwingUtilities.invokeLater(() -> new VentanaPrincipal(gestorEventos));
+        new VentanaPrincipal(gestorEventos);
     }
 }

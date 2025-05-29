@@ -1,7 +1,7 @@
 Evento Prueba
 2025-05-28 20:06
 Aula 1
-Descripcion de prueba
+Descripcion de prueba 1
 0
 Evento Prueba 2
 2025-05-26 20:34
@@ -15,3 +15,10 @@ Descripcion de prueba 3
 1
 Ignacio Melinc
 igna@example.com
+Evento Prueba 4
+2026-05-05 20:20
+Aula 4
+Descripcion prueba 4
+1
+Estudiante1
+estudiante1@hola.com
