@@ -76,7 +76,7 @@ public class VentanaPrincipal extends JFrame {
         detalleBoton.addActionListener(e -> {
             Evento nuevo = listaEventos.getSelectedValue();
             if (nuevo != null) {
-                new DetalleEvento(this, nuevo);
+                new DetalleEvento(this, nuevo, gestor);
             } else {
                 JOptionPane.showMessageDialog(this, "Seleccione un evento para ver los detalles");
             }

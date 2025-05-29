@@ -1,6 +1,7 @@
 package interfazGrafica;
 
 import elementos.Evento;
+import elementos.GestorEventos;
 import individuos.Asistente;
 
 import javax.swing.*;
@@ -8,7 +9,7 @@ import java.awt.*;
 
 public class DetalleEvento extends JDialog {
 
-    public DetalleEvento(Frame ventanaPpal, Evento evento) {
+    public DetalleEvento(Frame ventanaPpal, Evento evento, GestorEventos gestor) {
         super(ventanaPpal, "Detalle del Evento", true);
         setSize(400, 300);
         setLayout(new BorderLayout());
@@ -33,6 +34,7 @@ public class DetalleEvento extends JDialog {
             if (nombre != null && email != null) {
                 evento.agregarAsistente(new Asistente(nombre, email));
                 areaDetalleEvento.append("- " + nombre + "\n");
+                gestor.guardarEnArchivo("eventos.txt");
             }
         });
 
