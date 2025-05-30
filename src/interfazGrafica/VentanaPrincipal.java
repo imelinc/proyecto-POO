@@ -2,6 +2,7 @@ package interfazGrafica;
 
 import elementos.Evento;
 import elementos.GestorEventos;
+import recursos.GestorRecursos;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,10 +16,12 @@ public class VentanaPrincipal extends JFrame {
     private JList<Evento> listaEventos;
     private JComboBox<String> filtroComboBox;
     private static final String[] FILTROS = {"Todos", "Futuros", "Pasados"}; // para ver los eventos futuros o pasados
+    private GestorRecursos gestorRecursos;
 
-    public VentanaPrincipal(GestorEventos gestor) {
+    public VentanaPrincipal(GestorEventos gestor, GestorRecursos gestorRecursos) {
 
         this.gestor = gestor;
+        this.gestorRecursos = gestorRecursos;
 
         setTitle("Gestor de Eventos");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -59,7 +62,7 @@ public class VentanaPrincipal extends JFrame {
 
         // acciones de los botones
         agregarBoton.addActionListener(e -> {
-            Formulario formulario = new Formulario(this, "Agregar Eventos", null);
+            Formulario formulario = new Formulario(this, "Agregar Eventos", null, gestorRecursos);
             Evento nuevo = formulario.getEvento();
             if (nuevo != null) {
                 gestor.agregarEvento(nuevo);
@@ -71,7 +74,7 @@ public class VentanaPrincipal extends JFrame {
            Evento nuevo = listaEventos.getSelectedValue();
            if (nuevo != null) {
                int index = listaEventos.getSelectedIndex();
-               Formulario formulario = new Formulario(this, "Editar Eventos", nuevo);
+               Formulario formulario = new Formulario(this, "Editar Eventos", nuevo, gestorRecursos);
                Evento eventoModif = formulario.getEvento();
                if (eventoModif != null) {
                    gestor.actualizarEvento(index,eventoModif);

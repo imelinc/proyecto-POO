@@ -13,6 +13,7 @@ public class Main {
         gestorRecursos.cargarDesdeArchivo("recursos.txt");
         GestorEventos gestorEventos = new GestorEventos(gestorRecursos);
         gestorEventos.cargarDesdeArchivo("eventos.txt");
-        new VentanaPrincipal(gestorEventos);
+        new VentanaPrincipal(gestorEventos, gestorRecursos);
+
     }
 }
