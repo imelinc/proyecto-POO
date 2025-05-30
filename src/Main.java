@@ -2,10 +2,6 @@ import elementos.*;
 import interfazGrafica.VentanaPrincipal;
 import recursos.GestorRecursos;
 
-import javax.swing.*;
-import java.time.LocalDateTime;
-
-
 public class Main {
     public static void main(String[] args) {
 

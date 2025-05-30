@@ -12,7 +12,7 @@ public class DetalleEvento extends JDialog {
 
     public DetalleEvento(Frame ventanaPpal, Evento evento, GestorEventos gestor) {
         super(ventanaPpal, "Detalle del Evento", true);
-        setSize(400, 300);
+        setSize(500, 400);
         setLayout(new BorderLayout());
         setLocationRelativeTo(ventanaPpal);
 
