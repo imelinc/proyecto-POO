@@ -1,6 +1,8 @@
 package elementos;
 
 import individuos.Asistente;
+import recursos.GestorRecursos;
+import recursos.Recurso;
 
 import java.io.*;
 import java.time.LocalDateTime;
@@ -12,9 +14,11 @@ public class GestorEventos {
 
     private ArrayList<Evento> eventos;
     private static final DateTimeFormatter FORMATO = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+    private GestorRecursos gestorRecursos;
 
-    public GestorEventos() {
+    public GestorEventos(GestorRecursos gestorRecursos) {
         eventos = new ArrayList<>();
+        this.gestorRecursos = gestorRecursos;
     }
 
     public ArrayList<Evento> getEventos() {
@@ -58,6 +62,14 @@ public class GestorEventos {
                     writer.write(a.getEmail());
                     writer.newLine();
                 }
+
+                // Manejo el tema de los recursos
+                writer.write(String.valueOf(e.getRecursos().size()));
+                writer.newLine();
+                for (Recurso rec : e.getRecursos()) {
+                    writer.write(rec.getNombre());
+                    writer.newLine();
+                }
             }
         } catch (IOException e) {
             System.err.println("Error al guardar archivo");
@@ -81,6 +93,20 @@ public class GestorEventos {
                     evento.agregarAsistente(new Asistente(nombre, email));
                 }
                 eventos.add(evento);
+
+                // manejo el tema de los recursos
+                int cantidadRecursos = Integer.parseInt(reader.readLine());
+                ArrayList<Recurso> recursosAsignados = new ArrayList<>();
+                for (int i = 0; i < cantidadRecursos; i++) {
+                    String nombre = reader.readLine();
+                    for (Recurso rec : gestorRecursos.getRecursos()) {
+                        if (rec.getNombre().equals(nombre)) {
+                            recursosAsignados.add(rec);
+                            break;
+                        }
+                    }
+                }
+                evento.setRecursos(recursosAsignados);
             }
         } catch (FileNotFoundException e) {
             System.out.println("Archivo no encontrado.");

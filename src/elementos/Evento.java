@@ -44,6 +44,10 @@ public class Evento {
         return asistentes;
     }
 
+    public void setRecursos(ArrayList<Recurso> recursos) {
+        this.recursos = recursos;
+    }
+
     public ArrayList<Recurso> getRecursos() {
         return recursos;
     }
