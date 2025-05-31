@@ -3,11 +3,14 @@ package interfazGrafica;
 import elementos.Evento;
 import elementos.GestorEventos;
 import recursos.GestorRecursos;
+import com.toedter.calendar.JCalendar; // esto lo tuve que bajar de internet como.jar para poder implementar el calendario
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.time.LocalDate;
+import java.util.Date;
 
 public class VentanaPrincipal extends JFrame {
 
@@ -17,6 +20,7 @@ public class VentanaPrincipal extends JFrame {
     private JComboBox<String> filtroComboBox;
     private static final String[] FILTROS = {"Todos", "Futuros", "Pasados"}; // para ver los eventos futuros o pasados
     private GestorRecursos gestorRecursos;
+    private JCalendar calendario;
 
     public VentanaPrincipal(GestorEventos gestor, GestorRecursos gestorRecursos) {
 
@@ -25,9 +29,15 @@ public class VentanaPrincipal extends JFrame {
 
         setTitle("Gestor de Eventos");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(800, 600);
+        setSize(1000, 500);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
+
+        // calendario
+        calendario = new JCalendar();
+        JPanel panelIzquierdo = new JPanel(new BorderLayout());
+        panelIzquierdo.add(calendario, BorderLayout.NORTH);
+        add(panelIzquierdo, BorderLayout.WEST);
 
         // Panel superior
         JPanel panelSuperior = new JPanel(new BorderLayout());
@@ -94,15 +104,8 @@ public class VentanaPrincipal extends JFrame {
             }
         });
 
-        filtroComboBox.addActionListener(e -> {
-            listModel.clear();
-            String filtro = (String) filtroComboBox.getSelectedItem();
-            for (Evento ev : gestor.getEventos()) {
-                if ("Futuros".equals(filtro) && !ev.esFuturo()) continue;
-                if ("Pasados".equals(filtro) && !ev.esPasado()) continue;
-                listModel.addElement(ev);
-            }
-        });
+        filtroComboBox.addActionListener(e -> actualizarListaEventosPorFecha());
+        calendario.addPropertyChangeListener("date", evt -> actualizarListaEventosPorFecha());
 
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
@@ -111,5 +114,22 @@ public class VentanaPrincipal extends JFrame {
             }
         });
         setVisible(true);
+    }
+
+    private void actualizarListaEventosPorFecha() {
+        listModel.clear();
+        boolean hayEventos = false;
+        Date fecha = calendario.getDate();
+        LocalDate fechaSeleccionada = fecha.toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDate();
+        String filtro = (String) filtroComboBox.getSelectedItem();
+        for (Evento ev : gestor.getEventos()) {
+            if ("Futuros".equals(filtro) && !ev.esFuturo()) continue;
+            if ("Pasados".equals(filtro) && !ev.esPasado()) continue;
+            listModel.addElement(ev);
+            hayEventos = true;
+        }
+        if (!hayEventos) {
+            listModel.addElement(new Evento("No hay eventos para esta fecha", fechaSeleccionada.atStartOfDay(), "", ""));
+        }
     }
 }
