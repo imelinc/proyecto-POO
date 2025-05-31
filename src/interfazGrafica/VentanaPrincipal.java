@@ -18,7 +18,7 @@ public class VentanaPrincipal extends JFrame {
     private DefaultListModel<Evento> listModel;
     private JList<Evento> listaEventos;
     private JComboBox<String> filtroComboBox;
-    private static final String[] FILTROS = {"Todos", "Futuros", "Pasados"}; // para ver los eventos futuros o pasados
+    private static final String[] FILTROS = {"Filtrar por día", "Ver todos los días", "Futuros", "Pasados"}; // para ver los eventos futuros o pasados
     private GestorRecursos gestorRecursos;
     private JCalendar calendario;
 
@@ -129,24 +129,27 @@ public class VentanaPrincipal extends JFrame {
     private void actualizarListaEventosPorFecha() {
         listModel.clear();
         boolean hayEventos = false;
+        String filtro = (String) filtroComboBox.getSelectedItem();
+
+        // solo si se filtra por día
         Date fecha = calendario.getDate();
         LocalDate fechaSeleccionada = fecha.toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDate();
-        String filtro = (String) filtroComboBox.getSelectedItem();
 
         for (Evento ev : gestor.getEventos()) {
             LocalDate fechaEvento = ev.getFechaHora().toLocalDate();
 
-
-            if (!fechaEvento.equals(fechaSeleccionada)) continue;
-
+            if ("Filtrar por día".equals(filtro)) {
+                if (!fechaEvento.equals(fechaSeleccionada)) continue;
+            }
             if ("Futuros".equals(filtro) && !ev.esFuturo()) continue;
             if ("Pasados".equals(filtro) && !ev.esPasado()) continue;
             listModel.addElement(ev);
             hayEventos = true;
         }
         if (!hayEventos) {
-            listModel.addElement(new Evento("No hay eventos para esta fecha", fechaSeleccionada.atStartOfDay(), "", ""));
+            listModel.addElement(new Evento("No hay eventos para esta seleccion", fechaSeleccionada.atStartOfDay(), "", ""));
         }
     }
+
 
 }
