@@ -22,6 +22,7 @@ public class Evento {
         this.ubicacion = ubicacion;
         this.descripcion = descripcion;
         this.asistentes = new ArrayList<>();
+        this.recursos = new ArrayList<>();
     }
 
     public String getNombreDelEvento() {

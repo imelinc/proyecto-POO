@@ -76,9 +76,18 @@ public class VentanaPrincipal extends JFrame {
             Evento nuevo = formulario.getEvento();
             if (nuevo != null) {
                 gestor.agregarEvento(nuevo);
-                listModel.addElement(nuevo);
+
+                LocalDate fechaEvento = nuevo.getFechaHora().toLocalDate();
+                LocalDate fechaSeleccionada = calendario.getDate().toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDate();
+                if (!fechaEvento.equals(fechaSeleccionada)) {
+                    calendario.setDate(java.util.Date.from(
+                            fechaEvento.atStartOfDay(java.time.ZoneId.systemDefault()).toInstant()
+                    ));
+                }
+                actualizarListaEventosPorFecha();
             }
         });
+
 
         editarBoton.addActionListener(e -> {
            Evento nuevo = listaEventos.getSelectedValue();
@@ -122,7 +131,13 @@ public class VentanaPrincipal extends JFrame {
         Date fecha = calendario.getDate();
         LocalDate fechaSeleccionada = fecha.toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDate();
         String filtro = (String) filtroComboBox.getSelectedItem();
+
         for (Evento ev : gestor.getEventos()) {
+            LocalDate fechaEvento = ev.getFechaHora().toLocalDate();
+
+
+            if (!fechaEvento.equals(fechaSeleccionada)) continue;
+
             if ("Futuros".equals(filtro) && !ev.esFuturo()) continue;
             if ("Pasados".equals(filtro) && !ev.esPasado()) continue;
             listModel.addElement(ev);
@@ -132,4 +147,5 @@ public class VentanaPrincipal extends JFrame {
             listModel.addElement(new Evento("No hay eventos para esta fecha", fechaSeleccionada.atStartOfDay(), "", ""));
         }
     }
+
 }
