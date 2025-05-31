@@ -115,6 +115,7 @@ public class VentanaPrincipal extends JFrame {
 
         filtroComboBox.addActionListener(e -> actualizarListaEventosPorFecha());
         calendario.addPropertyChangeListener("date", evt -> actualizarListaEventosPorFecha());
+        calendario.getDayChooser().addPropertyChangeListener("day", evt -> actualizarListaEventosPorFecha());
 
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
