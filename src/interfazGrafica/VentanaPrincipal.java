@@ -57,6 +57,8 @@ public class VentanaPrincipal extends JFrame {
             listModel.addElement(e);
         }
 
+        notificarEventosProximos(); // si llega a haber un evento al otro dia llamar a la ventana
+
         // botones en el panel de abajo
         JPanel panelDeBotones = new JPanel();
 
@@ -148,6 +150,36 @@ public class VentanaPrincipal extends JFrame {
         }
         if (!hayEventos) {
             listModel.addElement(new Evento("No hay eventos para esta seleccion", fechaSeleccionada.atStartOfDay(), "", ""));
+        }
+    }
+
+    private void notificarEventosProximos() {
+        StringBuilder sb = new StringBuilder();
+        for (Evento evento : gestor.getEventos()) {
+            long horas = java.time.LocalDateTime.now().until(evento.getFechaHora(), java.time.temporal.ChronoUnit.HOURS);
+            if (horas > 0 && horas <= 24) {
+                sb.append("Evento: ").append(evento.getNombreDelEvento())
+                        .append("\nFecha y hora: ").append(evento.getFechaHora())
+                        .append("\nUbicación: ").append(evento.getUbicacion())
+                        .append("\nAsistentes: ");
+                if (evento.getAsistentes().isEmpty()) {
+                    sb.append("Ninguno\n\n");
+                } else {
+                    for (individuos.Asistente asistente : evento.getAsistentes()) {
+                        sb.append(asistente.getNombre()).append(" (").append(asistente.getEmail()).append("), ");
+                    }
+                    sb.setLength(sb.length() - 2);
+                    sb.append("\n\n");
+                }
+            }
+        }
+        if (sb.length() > 0) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "¡Tienes eventos próximos en las próximas 24 horas!\n\n" + sb,
+                    "Recordatorio de Eventos",
+                    JOptionPane.INFORMATION_MESSAGE
+            );
         }
     }
 
