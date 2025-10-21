@@ -6,6 +6,7 @@ import recursos.GestorRecursos;
 import com.toedter.calendar.JCalendar; // esto lo tuve que bajar de internet como.jar para poder implementar el calendario
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -21,6 +22,14 @@ public class VentanaPrincipal extends JFrame {
     private static final String[] FILTROS = {"Filtrar por día", "Ver todos los días", "Futuros", "Pasados"}; // para ver los eventos futuros o pasados
     private GestorRecursos gestorRecursos;
     private JCalendar calendario;
+    
+    // Color palette for modern UI
+    private static final Color PRIMARY_COLOR = new Color(41, 128, 185);
+    private static final Color SECONDARY_COLOR = new Color(52, 152, 219);
+    private static final Color BACKGROUND_COLOR = new Color(236, 240, 241);
+    private static final Color ACCENT_COLOR = new Color(26, 188, 156);
+    private static final Color TEXT_COLOR = new Color(44, 62, 80);
+    private static final Color BUTTON_HOVER = new Color(31, 97, 141);
 
     public VentanaPrincipal(GestorEventos gestor, GestorRecursos gestorRecursos) {
 
@@ -29,25 +38,70 @@ public class VentanaPrincipal extends JFrame {
 
         setTitle("Gestor de Eventos");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(1000, 500);
+        setSize(1100, 650);
         setLocationRelativeTo(null);
-        setLayout(new BorderLayout());
+        setLayout(new BorderLayout(10, 10));
+        
+        // Set background color
+        getContentPane().setBackground(BACKGROUND_COLOR);
 
-        // calendario
+        // calendario with styling
         calendario = new JCalendar();
-        JPanel panelIzquierdo = new JPanel(new BorderLayout());
-        panelIzquierdo.add(calendario, BorderLayout.NORTH);
+        calendario.setBackground(Color.WHITE);
+        JPanel panelIzquierdo = new JPanel(new BorderLayout(5, 5));
+        panelIzquierdo.setBackground(BACKGROUND_COLOR);
+        panelIzquierdo.setBorder(new EmptyBorder(15, 15, 15, 10));
+        
+        JLabel tituloCalendario = new JLabel("Calendario");
+        tituloCalendario.setFont(new Font("Arial", Font.BOLD, 16));
+        tituloCalendario.setForeground(TEXT_COLOR);
+        tituloCalendario.setBorder(new EmptyBorder(0, 0, 10, 0));
+        panelIzquierdo.add(tituloCalendario, BorderLayout.NORTH);
+        panelIzquierdo.add(calendario, BorderLayout.CENTER);
         add(panelIzquierdo, BorderLayout.WEST);
 
-        // Panel superior
-        JPanel panelSuperior = new JPanel(new BorderLayout());
+        // Panel superior with improved styling
+        JPanel panelSuperior = new JPanel(new BorderLayout(5, 5));
+        panelSuperior.setBackground(BACKGROUND_COLOR);
+        panelSuperior.setBorder(new EmptyBorder(15, 10, 15, 15));
 
+        // Filter section with label
+        JPanel panelFiltro = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 5));
+        panelFiltro.setBackground(BACKGROUND_COLOR);
+        JLabel labelFiltro = new JLabel("Filtrar eventos:");
+        labelFiltro.setFont(new Font("Arial", Font.BOLD, 14));
+        labelFiltro.setForeground(TEXT_COLOR);
+        panelFiltro.add(labelFiltro);
+        
         filtroComboBox = new JComboBox<>(FILTROS);
-        panelSuperior.add(filtroComboBox, BorderLayout.NORTH);
+        filtroComboBox.setFont(new Font("Arial", Font.PLAIN, 13));
+        filtroComboBox.setBackground(Color.WHITE);
+        filtroComboBox.setPreferredSize(new Dimension(200, 30));
+        panelFiltro.add(filtroComboBox);
+        panelSuperior.add(panelFiltro, BorderLayout.NORTH);
 
         listModel = new DefaultListModel<>();
         listaEventos = new JList<>(listModel);
+        listaEventos.setFont(new Font("Arial", Font.PLAIN, 13));
+        listaEventos.setBackground(Color.WHITE);
+        listaEventos.setSelectionBackground(SECONDARY_COLOR);
+        listaEventos.setSelectionForeground(Color.WHITE);
+        listaEventos.setBorder(BorderFactory.createLineBorder(new Color(189, 195, 199), 1));
+        listaEventos.setCellRenderer(new DefaultListCellRenderer() {
+            @Override
+            public Component getListCellRendererComponent(JList<?> list, Object value, 
+                    int index, boolean isSelected, boolean cellHasFocus) {
+                super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                setBorder(new EmptyBorder(8, 10, 8, 10));
+                if (!isSelected) {
+                    setBackground(index % 2 == 0 ? Color.WHITE : new Color(249, 249, 249));
+                }
+                return this;
+            }
+        });
+        
         JScrollPane jScrollPane = new JScrollPane(listaEventos);
+        jScrollPane.setBorder(BorderFactory.createEmptyBorder());
         panelSuperior.add(jScrollPane, BorderLayout.CENTER);
 
         add(panelSuperior, BorderLayout.CENTER);
@@ -59,12 +113,14 @@ public class VentanaPrincipal extends JFrame {
 
         notificarEventosProximos(); // si llega a haber un evento al otro dia llamar a la ventana
 
-        // botones en el panel de abajo
-        JPanel panelDeBotones = new JPanel();
+        // botones en el panel de abajo with improved styling
+        JPanel panelDeBotones = new JPanel(new FlowLayout(FlowLayout.CENTER, 15, 15));
+        panelDeBotones.setBackground(BACKGROUND_COLOR);
+        panelDeBotones.setBorder(new EmptyBorder(10, 15, 15, 15));
 
-        JButton agregarBoton = new JButton("Agregar Evento");
-        JButton editarBoton = new JButton("Editar Evento");
-        JButton detalleBoton = new JButton("Ver Detalle Evento");
+        JButton agregarBoton = crearBotonEstilizado("+ Agregar Evento", PRIMARY_COLOR);
+        JButton editarBoton = crearBotonEstilizado("✎ Editar Evento", ACCENT_COLOR);
+        JButton detalleBoton = crearBotonEstilizado("🔍 Ver Detalle", SECONDARY_COLOR);
 
         panelDeBotones.add(agregarBoton);
         panelDeBotones.add(editarBoton);
@@ -126,6 +182,30 @@ public class VentanaPrincipal extends JFrame {
             }
         });
         setVisible(true);
+    }
+    
+    private JButton crearBotonEstilizado(String texto, Color colorFondo) {
+        JButton boton = new JButton(texto);
+        boton.setFont(new Font("Arial", Font.BOLD, 14));
+        boton.setBackground(colorFondo);
+        boton.setForeground(Color.WHITE);
+        boton.setFocusPainted(false);
+        boton.setBorderPainted(false);
+        boton.setOpaque(true);
+        boton.setPreferredSize(new Dimension(180, 40));
+        boton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        
+        // Add hover effect
+        boton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                boton.setBackground(colorFondo.darker());
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                boton.setBackground(colorFondo);
+            }
+        });
+        
+        return boton;
     }
 
     private void actualizarListaEventosPorFecha() {

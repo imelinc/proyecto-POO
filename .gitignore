@@ -27,3 +27,8 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+
+### Screenshots and test images ###
+ui_improvement_*.png
+main_window_*.png
+**/screenshot*.png
